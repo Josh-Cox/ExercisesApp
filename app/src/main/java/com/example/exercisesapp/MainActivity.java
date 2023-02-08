@@ -1,6 +1,8 @@
 package com.example.exercisesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,13 +12,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnGetExMuscle, btnGetExByName, btnGetExByMuscle;
     EditText etDataInput;
-    ListView lvExList;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,8 @@ public class MainActivity extends AppCompatActivity {
         btnGetExMuscle = findViewById(R.id.btnGetExMuscle);
         btnGetExByName = findViewById(R.id.btnGetExByName);
         btnGetExByMuscle = findViewById(R.id.btnGetExByMuscle);
-
+        recyclerView = findViewById(R.id.rvSearchList);
         etDataInput = findViewById(R.id.etDataInput);
-        lvExList = findViewById(R.id.lvExList);
 
         ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
 
@@ -45,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onResponse(List<ExInfoModel> exInfoModelList) {
+                    public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
 
                         // put the items in the list view
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, exInfoModelList);
-                        lvExList.setAdapter(arrayAdapter);
+                        rvResultsAdapter adapter = new rvResultsAdapter(MainActivity.this, exInfoModels);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
                     }
                 });
 

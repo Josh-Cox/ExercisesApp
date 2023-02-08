@@ -34,11 +34,11 @@ public class ExerciseDataService {
     public interface ExInfoByNameResponse {
         void onError(String message);
 
-        void onResponse(List<ExInfoModel> exInfoModelList);
+        void onResponse(ArrayList<ExInfoModel> exInfoModels);
     }
 
     public void getExInfoByName(String exName, ExInfoByNameResponse exInfoByNameResponse) {
-        List<ExInfoModel> exInfoModelList = new ArrayList<>();
+        ArrayList<ExInfoModel> exInfoModels = new ArrayList<>();
         String url = QUERY_FOR_EX_MUSCLE_BY_NAME + exName;
 
         // get the array
@@ -66,10 +66,10 @@ public class ExerciseDataService {
                         oneResultEx.setInstructions(oneAPIResult.getString("instructions"));
 
                         // add to model list
-                        exInfoModelList.add(oneResultEx);
+                        exInfoModels.add(oneResultEx);
                     }
 
-                    exInfoByNameResponse.onResponse(exInfoModelList);
+                    exInfoByNameResponse.onResponse(exInfoModels);
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
