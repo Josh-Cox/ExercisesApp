@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnGetExMuscle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Muscle"
+        app:layout_constraintEnd_toStartOf="@+id/btnGetExByName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGetExByName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ex By Name"
+        app:layout_constraintEnd_toStartOf="@+id/btnGetExByMuscle"
+        app:layout_constraintStart_toEndOf="@id/btnGetExMuscle"
+        app:layout_constraintTop_toTopOf="@+id/btnGetExMuscle" />
+
+    <Button
+        android:id="@+id/btnGetExByMuscle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ex By Muscle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnGetExByName"
+        app:layout_constraintTop_toTopOf="@+id/btnGetExByName" />
+
+    <EditText
+        android:id="@+id/etDataInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Exercise Name"
+        android:minHeight="48dp"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetExMuscle" />
+
+    <ListView
+        android:id="@+id/lvExList"
+        android:layout_width="350dp"
+        android:layout_height="628dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDataInput" />
+</androidx.constraintlayout.widget.ConstraintLayout>
