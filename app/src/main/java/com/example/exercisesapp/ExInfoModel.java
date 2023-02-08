@@ -1,5 +1,8 @@
 package com.example.exercisesapp;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class ExInfoModel {
 
     // attributes
@@ -9,6 +12,8 @@ public class ExInfoModel {
     private String equipment;
     private String difficulty;
     private String instructions;
+
+    private int mData;
 
     // constructors
     public ExInfoModel(String name, String type, String muscle, String equipment, String difficulty, String instructions) {
@@ -81,4 +86,6 @@ public class ExInfoModel {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
+
 }

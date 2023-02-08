@@ -1,7 +1,6 @@
 package com.example.exercisesapp;
 
 import android.content.Context;
-import android.service.autofill.TextValueSanitizer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,34 +9,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class rvResultsAdapter extends RecyclerView.Adapter<rvResultsAdapter.MyViewHolder> {
+public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.MyViewHolder> {
+    private final RVSearchInterface rvSearchInterface;
+
     Context context;
     ArrayList<ExInfoModel> exInfoModels;
 
 
-    public rvResultsAdapter(Context context, ArrayList<ExInfoModel> exInfoModels) {
+    public RVSearchAdapter(Context context, ArrayList<ExInfoModel> exInfoModels, RVSearchInterface rvSearchInterface) {
         this.context = context;
         this.exInfoModels = exInfoModels;
+        this.rvSearchInterface = rvSearchInterface;
     }
 
     // inflate layout
     @NonNull
     @Override
-    public rvResultsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RVSearchAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_search_row, parent, false);
 
-        return new rvResultsAdapter.MyViewHolder(view);
+        return new RVSearchAdapter.MyViewHolder(view, rvSearchInterface, exInfoModels);
     }
 
     // bind values to each item
     @Override
-    public void onBindViewHolder(@NonNull rvResultsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RVSearchAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(exInfoModels.get(position).getName());
         holder.tvMuscle.setText("Muscle: " + exInfoModels.get(position).getMuscle());
         holder.tvDiff.setText("Difficulty: " + exInfoModels.get(position).getDifficulty());
@@ -56,12 +55,25 @@ public class rvResultsAdapter extends RecyclerView.Adapter<rvResultsAdapter.MyVi
         TextView tvMuscle;
         TextView tvDiff;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, RVSearchInterface rvSearchInterface, ArrayList<ExInfoModel> exInfoModels) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tvExName);
             tvMuscle = itemView.findViewById(R.id.tvExMuscle);
             tvDiff = itemView.findViewById(R.id.tvExDiff);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(rvSearchInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if(position != RecyclerView.NO_POSITION) {
+                            rvSearchInterface.onItemClick(position, exInfoModels);
+                        }
+                    }
+                }
+            });
 
         }
     }

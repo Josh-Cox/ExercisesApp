@@ -4,18 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.parceler.Parcels;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements RVSearchInterface {
 
     Button btnGetExMuscle, btnGetExByName, btnGetExByMuscle;
     EditText etDataInput;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
 
                         // put the items in the list view
-                        rvResultsAdapter adapter = new rvResultsAdapter(MainActivity.this, exInfoModels);
+                        RVSearchAdapter adapter = new RVSearchAdapter(MainActivity.this, exInfoModels, MainActivity.this);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
@@ -75,4 +75,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels) {
+        Intent intent = new Intent(this, ExerciseInfoActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("exercise", Parcels.wrap(exInfoModels.get(position)));
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+
+    }
 }
