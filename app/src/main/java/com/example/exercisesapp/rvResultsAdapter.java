@@ -39,8 +39,8 @@ public class rvResultsAdapter extends RecyclerView.Adapter<rvResultsAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull rvResultsAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(exInfoModels.get(position).getName());
-        holder.tvMuscle.setText(exInfoModels.get(position).getMuscle());
-        holder.tvDiff.setText(exInfoModels.get(position).getDifficulty());
+        holder.tvMuscle.setText("Muscle: " + exInfoModels.get(position).getMuscle());
+        holder.tvDiff.setText("Difficulty: " + exInfoModels.get(position).getDifficulty());
     }
 
     // get total number of items
