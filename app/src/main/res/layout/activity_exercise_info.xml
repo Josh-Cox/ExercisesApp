@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blueBlack"
     tools:context=".ExerciseInfoActivity">
 
     <TextView
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Exercise Name"
+        android:textColor="@color/tanAccent"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,38 +24,70 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Type"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="74dp" />
+        android:textColor="@color/tanAccent"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvEquipment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvEquipment" />
 
     <TextView
         android:id="@+id/tvDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Difficulty"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="111dp" />
+        android:textColor="@color/tanAccent"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvMuscle"
+        app:layout_constraintTop_toTopOf="@+id/tvMuscle" />
 
     <TextView
         android:id="@+id/tvMuscle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Muscle"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="169dp" />
+        android:textColor="@color/tanAccent"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvDifficulty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
     <TextView
         android:id="@+id/tvInstr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
         android:text="Instructions"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="218dp" />
+        android:textColor="@color/tanAccent"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInstrTitle" />
 
     <TextView
         android:id="@+id/tvEquipment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Equipment"
-        tools:layout_editor_absoluteX="216dp"
-        tools:layout_editor_absoluteY="130dp" />
+        android:textColor="@color/tanAccent"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvType"
+        app:layout_constraintTop_toBottomOf="@+id/tvDifficulty" />
+
+    <TextView
+        android:id="@+id/tvInstrTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Instructions"
+        android:textSize="20sp"
+        android:textColor="@color/tanAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEquipment" />
 </androidx.constraintlayout.widget.ConstraintLayout>
