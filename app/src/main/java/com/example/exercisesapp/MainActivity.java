@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -28,8 +30,6 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
 
         // assign values for views
         btnGetExMuscle = findViewById(R.id.btnGetExMuscle);
-        btnGetExByName = findViewById(R.id.btnGetExByName);
-        btnGetExByMuscle = findViewById(R.id.btnGetExByMuscle);
         recyclerView = findViewById(R.id.rvSearchList);
         etDataInput = findViewById(R.id.etDataInput);
 
@@ -60,19 +60,6 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
             }
         });
 
-        btnGetExByName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "You typed: " + etDataInput.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnGetExByMuscle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "You clicked me 3", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

@@ -10,4 +10,10 @@
 
     <color name="blueBlack">#111f28</color>
     <color name="tanAccent">#e3cdb3</color>
+
+    <color name="dark_grey">#000000</color>
+    <color name="grey">#141414</color>
+    <color name="pink">#E8175D</color>
+    <color name="light_pink">#CC527A</color>
+    <color name="light_grey">#A8A7A7</color>
 </resources>

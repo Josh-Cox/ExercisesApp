@@ -27,14 +27,14 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         ExInfoModel exInfoModel = Parcels.unwrap(getIntent().getParcelableExtra("exercise"));
 
         tvName.setText(exInfoModel.getName());
-        tvMuscle.setText("Muscle: " + exInfoModel.getMuscle());
-        tvEquipment.setText("Equipment: " + exInfoModel.getEquipment());
-        tvType.setText("Type: " + exInfoModel.getType());
-        tvDifficulty.setText("Difficulty: " + exInfoModel.getDifficulty());
+        tvMuscle.setText(exInfoModel.getMuscle());
+        tvEquipment.setText(exInfoModel.getEquipment());
+        tvType.setText(exInfoModel.getType());
+        tvDifficulty.setText(exInfoModel.getDifficulty());
         tvInstr.setText(exInfoModel.getInstructions());
 
         // set instructions to be scrollable
-        tvInstr.setMovementMethod(new ScrollingMovementMethod());
+//        tvInstr.setMovementMethod(new ScrollingMovementMethod());
 
 
     }

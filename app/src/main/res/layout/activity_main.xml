@@ -4,55 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_grey"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btnGetExMuscle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Muscle"
-        app:layout_constraintEnd_toStartOf="@+id/btnGetExByName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnGetExByName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ex By Name"
-        app:layout_constraintEnd_toStartOf="@+id/btnGetExByMuscle"
-        app:layout_constraintStart_toEndOf="@id/btnGetExMuscle"
-        app:layout_constraintTop_toTopOf="@+id/btnGetExMuscle" />
-
-    <Button
-        android:id="@+id/btnGetExByMuscle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ex By Muscle"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/grey"
+        android:text="Search"
+        android:textColor="@color/light_pink"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnGetExByName"
-        app:layout_constraintTop_toTopOf="@+id/btnGetExByName" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etDataInput"/>
 
     <EditText
         android:id="@+id/etDataInput"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_search"
+        android:drawableStart="@drawable/ic_pink_search"
+        android:drawablePadding="-20dp"
+        android:textAlignment="center"
         android:ems="10"
+        android:gravity="center"
         android:hint="Exercise Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingLeft="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_grey"
+        app:layout_constraintEnd_toStartOf="@+id/btnGetExMuscle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetExMuscle" />
+        app:layout_constraintTop_toTopOf="@+id/btnGetExMuscle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchList"
-        android:layout_width="350dp"
-        android:layout_height="625dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
