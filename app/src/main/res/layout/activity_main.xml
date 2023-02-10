@@ -11,45 +11,58 @@
         android:id="@+id/btnGetExMuscle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/etDataInput"
         android:backgroundTint="@color/grey"
         android:text="Search"
         android:textColor="@color/light_pink"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/etDataInput"/>
+        app:layout_constraintStart_toEndOf="@+id/etDataInput"
+        app:layout_constraintTop_toTopOf="@+id/etDataInput" />
 
     <EditText
         android:id="@+id/etDataInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rounded_search"
         android:drawableStart="@drawable/ic_pink_search"
         android:drawablePadding="-20dp"
-        android:textAlignment="center"
         android:ems="10"
         android:gravity="center"
         android:hint="Exercise Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:paddingLeft="10dp"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toStartOf="@+id/btnGetExMuscle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnGetExMuscle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDataInput" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        app:itemBackground="@color/grey"
+        app:itemIconTint="@drawable/bottom_nav_selector"
+        app:itemTextColor="@drawable/bottom_nav_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
