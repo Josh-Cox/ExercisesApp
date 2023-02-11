@@ -2,8 +2,10 @@ package com.example.exercisesapp;
 
 import org.parceler.Parcel;
 
+import java.io.Serializable;
+
 @Parcel
-public class ExInfoModel {
+public class ExInfoModel implements Serializable {
 
     // attributes
     private String name;

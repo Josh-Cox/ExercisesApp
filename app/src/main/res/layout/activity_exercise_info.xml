@@ -11,7 +11,11 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,8 +64,8 @@
                 android:id="@+id/tvDifficultyTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
                 android:text="Difficulty"
                 android:textColor="@color/white"
                 android:textSize="14sp"
@@ -108,8 +112,8 @@
                 android:id="@+id/tvEquipmentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
                 android:text="Equipment"
                 android:textColor="@color/white"
                 android:textSize="14sp"
@@ -157,6 +161,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvInstrTitle" />
+
+            <Button
+                android:id="@+id/btnSaveTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SaveTest" />
+
+            <Button
+                android:id="@+id/btnReadTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ReadTest" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
