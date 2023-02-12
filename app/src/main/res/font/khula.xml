@@ -3,14 +3,9 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/roboto_regular"/>
+        android:font="@font/khula_semibold"/>
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/roboto_medium"/>
-    <font
-        android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/roboto_bold"/>
-
+        android:font="@font/khula_bold"/>
 </font-family>

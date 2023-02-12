@@ -15,6 +15,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationBarView;
@@ -34,11 +36,23 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
     EditText etDataInput;
     RecyclerView recyclerView;
     NavigationBarView navigationBarView;
+    TextView tvActionBar;
+    ImageView backIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // assign values for views
+        btnGetExMuscle = findViewById(R.id.btnGetExMuscle);
+        recyclerView = findViewById(R.id.rvSearchList);
+        etDataInput = findViewById(R.id.etDataInput);
+        backIcon = findViewById(R.id.backIcon);
+
+        // top action bar
+        tvActionBar = findViewById(R.id.pageTitle);
+        tvActionBar.setText(R.string.home_page);
 
 
         // bottom nav bar
@@ -63,11 +77,6 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
             }
         });
 
-        // assign values for views
-        btnGetExMuscle = findViewById(R.id.btnGetExMuscle);
-        recyclerView = findViewById(R.id.rvSearchList);
-        etDataInput = findViewById(R.id.etDataInput);
-
         ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
 
         // btn listeners
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
                     public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
 
                         // put the items in the list view
-                        RVSearchAdapter adapter = new RVSearchAdapter(MainActivity.this, exInfoModels, MainActivity.this);
+                        RVSearchAdapter adapter = new RVSearchAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
@@ -98,15 +107,15 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
     }
 
     @Override
-    public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels) {
+    public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
         Intent intent = new Intent(this, ExerciseInfoActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("exercise", Parcels.wrap(exInfoModels.get(position)));
+        bundle.putParcelable("clickedFrom", Parcels.wrap(clickedFrom));
         intent.putExtras(bundle);
 
         startActivity(intent);
-
     }
 
     public static ArrayList<ExInfoModel> getSavedEx(Context context) {

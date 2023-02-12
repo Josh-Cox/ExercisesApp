@@ -5,16 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationBarView;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,13 +36,17 @@ public class ProfileActivity extends AppCompatActivity implements RVSearchInterf
     RecyclerView recyclerView;
     ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
     Context context = ProfileActivity.this;
+    TextView tvActionBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
+        // top action bar
+        tvActionBar = findViewById(R.id.pageTitle);
+        tvActionBar.setText(R.string.profile_page);
 
         // set attributes
         recyclerView = findViewById(R.id.rvSavedList);
@@ -46,9 +57,11 @@ public class ProfileActivity extends AppCompatActivity implements RVSearchInterf
         savedExInfoModels = MainActivity.getSavedEx(ProfileActivity.this);
 
         // put the items in the list view
-        RVSearchAdapter adapter = new RVSearchAdapter(ProfileActivity.this, savedExInfoModels, ProfileActivity.this);
+        RVSearchAdapter adapter = new RVSearchAdapter(ProfileActivity.this, savedExInfoModels, ProfileActivity.this, "profile");
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
+
+
 
 
         // bottom nav bar
@@ -74,7 +87,16 @@ public class ProfileActivity extends AppCompatActivity implements RVSearchInterf
     }
 
     @Override
-    public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels) {
+    public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
+        Intent intent = new Intent(this, ExerciseInfoActivity.class);
 
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("exercise", Parcels.wrap(exInfoModels.get(position)));
+        bundle.putParcelable("clickedFrom", Parcels.wrap(clickedFrom));
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
+
+
 }

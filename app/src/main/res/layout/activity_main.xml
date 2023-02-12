@@ -7,6 +7,13 @@
     android:background="@color/dark_grey"
     tools:context=".MainActivity">
 
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/action_bar_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btnGetExMuscle"
         android:layout_width="wrap_content"
@@ -23,7 +30,7 @@
         android:id="@+id/etDataInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_search"
         android:drawableStart="@drawable/ic_pink_search"
         android:drawablePadding="-20dp"
@@ -38,7 +45,7 @@
         android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toStartOf="@+id/btnGetExMuscle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/actionBar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchList"

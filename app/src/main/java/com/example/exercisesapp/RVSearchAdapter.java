@@ -16,12 +16,14 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.MyView
 
     Context context;
     ArrayList<ExInfoModel> exInfoModels;
+    String clickedFrom;
 
 
-    public RVSearchAdapter(Context context, ArrayList<ExInfoModel> exInfoModels, RVSearchInterface rvSearchInterface) {
+    public RVSearchAdapter(Context context, ArrayList<ExInfoModel> exInfoModels, RVSearchInterface rvSearchInterface, String clickedFrom) {
         this.context = context;
         this.exInfoModels = exInfoModels;
         this.rvSearchInterface = rvSearchInterface;
+        this.clickedFrom = clickedFrom;
     }
 
     // inflate layout
@@ -31,7 +33,7 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.MyView
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_search_row, parent, false);
 
-        return new RVSearchAdapter.MyViewHolder(view, rvSearchInterface, exInfoModels);
+        return new RVSearchAdapter.MyViewHolder(view, rvSearchInterface, exInfoModels, clickedFrom);
     }
 
     // bind values to each item
@@ -55,7 +57,7 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.MyView
         TextView tvMuscle;
         TextView tvDiff;
 
-        public MyViewHolder(@NonNull View itemView, RVSearchInterface rvSearchInterface, ArrayList<ExInfoModel> exInfoModels) {
+        public MyViewHolder(@NonNull View itemView, RVSearchInterface rvSearchInterface, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tvExName);
@@ -69,7 +71,7 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.MyView
                         int position = getAdapterPosition();
 
                         if(position != RecyclerView.NO_POSITION) {
-                            rvSearchInterface.onItemClick(position, exInfoModels);
+                            rvSearchInterface.onItemClick(position, exInfoModels, clickedFrom);
                         }
                     }
                 }

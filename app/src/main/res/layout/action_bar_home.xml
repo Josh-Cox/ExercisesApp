@@ -13,14 +13,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/backIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            app:tint="@color/white"
-            android:src="@drawable/ic_back" />
-
         <TextView
             android:id="@+id/pageTitle"
             android:layout_width="wrap_content"
@@ -31,12 +23,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_toStartOf="@id/menuOrAddIcon"
-            android:layout_toEndOf="@id/backIcon"
+            android:layout_alignParentStart="true"
             android:ellipsize="end"
             android:fontFamily="@font/khula_semibold"
             android:maxLines="1"
             android:scrollHorizontally="true"
-            android:text="Page Title"
+            android:text="Title page"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

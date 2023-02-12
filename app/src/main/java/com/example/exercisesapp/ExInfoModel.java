@@ -37,7 +37,9 @@ public class ExInfoModel implements Serializable {
         return  name + '\n' +
                 "muscle: " + muscle + '\n' +
                 "type: " + type + '\n' +
-                "difficulty: " + difficulty + '\n';
+                "difficulty: " + difficulty + '\n' +
+                "equipment: " + equipment + '\n' +
+                "instructions: " + instructions + '\n';
     }
 
     // getters and setters
