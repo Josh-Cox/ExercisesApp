@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
@@ -65,11 +66,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
 
     /**
      * get size of exercise list
-     * @return
+     * @return exInfoModels.size()
      */
     @Override
     public int getItemCount() {
         return exInfoModels.size();
+    }
+
+    /**
+     * get exercises
+     * @return exInfoModels
+     */
+    public Serializable getItems() {
+        return exInfoModels;
     }
 
     // inner view holder class

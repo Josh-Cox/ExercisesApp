@@ -23,6 +23,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RVInterface {
 
+    RVAdapter adapter;
+    RecyclerView recyclerView;
+    private final String STATE_ITEMS = "items";
+
     /**
      * on activity creation
      * @param savedInstanceState
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
         // assign values for views
         Button btnSearch = findViewById(R.id.btnSearch);
-        RecyclerView recyclerView = findViewById(R.id.rvSearchList);
+        recyclerView = findViewById(R.id.rvSearchList);
         EditText etDataInput = findViewById(R.id.etDataInput);
         ImageView backIcon = findViewById(R.id.backIcon);
 
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
                     public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
 
                         // put the items in the list view
-                        RVAdapter adapter = new RVAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
+                        adapter = new RVAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
@@ -129,5 +133,31 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
         // start intent to move to exercise details activity
         startActivity(intent);
+    }
+
+    /**
+     * save the state of the instance of the activity (recyclerView)
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(adapter != null) {
+            outState.putSerializable(STATE_ITEMS, adapter.getItems());
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * restore the state of the instance of the activity (recyclerView)
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // put the items in the list view
+        adapter = new RVAdapter(MainActivity.this, (ArrayList<ExInfoModel>) savedInstanceState.getSerializable(STATE_ITEMS), MainActivity.this, "main");
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 }
