@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +21,11 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import org.parceler.Parcels;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RVSearchInterface {
@@ -30,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // bottom nav bar
         navigationBarView = findViewById(R.id.bottom_nav);
@@ -97,5 +107,30 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
 
         startActivity(intent);
 
+    }
+
+    public static ArrayList<ExInfoModel> getSavedEx(Context context) {
+        // create file
+        String filename = "saved";
+        File file = new File(context.getFilesDir(), filename);
+
+        ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
+
+        // get saved exercises from file
+        try {
+            file.createNewFile();
+            FileInputStream fis = context.openFileInput(filename);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            savedExInfoModels = (ArrayList<ExInfoModel>) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return savedExInfoModels;
     }
 }
