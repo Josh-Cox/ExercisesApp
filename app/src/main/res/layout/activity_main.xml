@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnGetExMuscle"
+        android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/etDataInput"
@@ -43,7 +43,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/light_grey"
-        app:layout_constraintEnd_toStartOf="@+id/btnGetExMuscle"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionBar" />
 

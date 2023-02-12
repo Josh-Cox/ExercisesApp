@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,44 +19,42 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import org.parceler.Parcels;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RVSearchInterface {
+public class MainActivity extends AppCompatActivity implements RVInterface {
 
-    Button btnGetExMuscle, btnGetExByName, btnGetExByMuscle;
-    EditText etDataInput;
-    RecyclerView recyclerView;
-    NavigationBarView navigationBarView;
-    TextView tvActionBar;
-    ImageView backIcon;
-
+    /**
+     * on activity creation
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // assign values for views
-        btnGetExMuscle = findViewById(R.id.btnGetExMuscle);
-        recyclerView = findViewById(R.id.rvSearchList);
-        etDataInput = findViewById(R.id.etDataInput);
-        backIcon = findViewById(R.id.backIcon);
+        Button btnSearch = findViewById(R.id.btnSearch);
+        RecyclerView recyclerView = findViewById(R.id.rvSearchList);
+        EditText etDataInput = findViewById(R.id.etDataInput);
+        ImageView backIcon = findViewById(R.id.backIcon);
+
+        // define instance of service for communication with API
+        ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
 
         // top action bar
-        tvActionBar = findViewById(R.id.pageTitle);
+        TextView tvActionBar = findViewById(R.id.pageTitle);
         tvActionBar.setText(R.string.home_page);
 
-
         // bottom nav bar
-        navigationBarView = findViewById(R.id.bottom_nav);
+        NavigationBarView navigationBarView = findViewById(R.id.bottom_nav);
         navigationBarView.setSelectedItemId(R.id.home);
 
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-
+            /**
+             * Switches the activity to the selected icon
+             * @param item The selected item
+             * @return true if a switch case is taken
+             */
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -77,24 +71,34 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
             }
         });
 
-        ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
-
         // btn listeners
-        btnGetExMuscle.setOnClickListener(new View.OnClickListener() {
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick listener for the search button
+             * @param view
+             */
             @Override
             public void onClick(View view) {
 
                 exerciseDataService.getExInfoByName(etDataInput.getText().toString(), new ExerciseDataService.ExInfoByNameResponse() {
+                    /**
+                     * catches and returns error with API service communication
+                     * @param message
+                     */
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
 
+                    /**
+                     * creates adapter for recycleView  on API service response
+                     * @param exInfoModels
+                     */
                     @Override
                     public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
 
                         // put the items in the list view
-                        RVSearchAdapter adapter = new RVSearchAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
+                        RVAdapter adapter = new RVAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
@@ -106,40 +110,24 @@ public class MainActivity extends AppCompatActivity implements RVSearchInterface
 
     }
 
+    /**
+     * on item click in recyclerView
+     * @param position
+     * @param exInfoModels
+     * @param clickedFrom
+     */
     @Override
     public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
+        // create intent to move to exercise details activity
         Intent intent = new Intent(this, ExerciseInfoActivity.class);
 
+        // create bundle and add the exercise pressed, and activity user was previously on
         Bundle bundle = new Bundle();
         bundle.putParcelable("exercise", Parcels.wrap(exInfoModels.get(position)));
         bundle.putParcelable("clickedFrom", Parcels.wrap(clickedFrom));
         intent.putExtras(bundle);
 
+        // start intent to move to exercise details activity
         startActivity(intent);
-    }
-
-    public static ArrayList<ExInfoModel> getSavedEx(Context context) {
-        // create file
-        String filename = "saved";
-        File file = new File(context.getFilesDir(), filename);
-
-        ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
-
-        // get saved exercises from file
-        try {
-            file.createNewFile();
-            FileInputStream fis = context.openFileInput(filename);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            savedExInfoModels = (ArrayList<ExInfoModel>) ois.readObject();
-            ois.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        return savedExInfoModels;
     }
 }

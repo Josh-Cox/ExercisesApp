@@ -5,38 +5,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.parceler.Parcels;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity implements RVSearchInterface {
+public class ProfileActivity extends AppCompatActivity implements RVInterface {
+
+    // refresh boolean
+    static boolean refreshed = true;
 
     NavigationBarView navigationBarView;
     RecyclerView recyclerView;
     ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
     Context context = ProfileActivity.this;
     TextView tvActionBar;
+    RVAdapter adapter;
 
 
     @Override
@@ -54,10 +45,10 @@ public class ProfileActivity extends AppCompatActivity implements RVSearchInterf
         String filename = "saved";
 
         // get saved exercises from file
-        savedExInfoModels = MainActivity.getSavedEx(ProfileActivity.this);
+        savedExInfoModels = ExerciseInfoActivity.getSavedEx(ProfileActivity.this);
 
         // put the items in the list view
-        RVSearchAdapter adapter = new RVSearchAdapter(ProfileActivity.this, savedExInfoModels, ProfileActivity.this, "profile");
+        adapter = new RVAdapter(ProfileActivity.this, savedExInfoModels, ProfileActivity.this, "profile");
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
 
@@ -97,6 +88,28 @@ public class ProfileActivity extends AppCompatActivity implements RVSearchInterf
 
         startActivity(intent);
     }
+
+    public void refreshActivity() {
+        Intent i = new Intent(ProfileActivity.this, ProfileActivity.class);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(i);
+        overridePendingTransition(0, 0);
+    }
+
+    // override onResume to re-create activity (to refresh recycleView)
+    @Override
+    protected void onResume() {
+
+        // if it needs refreshing
+        if(!refreshed) {
+            recreate();
+            refreshed = true;
+        }
+        // still call onResume
+        super.onResume();
+    }
+
 
 
 }
