@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         Button btnSearch = findViewById(R.id.btnSearch);
         recyclerView = findViewById(R.id.rvSearchList);
         EditText etDataInput = findViewById(R.id.etDataInput);
-        ImageView backIcon = findViewById(R.id.backIcon);
 
         // define instance of service for communication with API
         ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
