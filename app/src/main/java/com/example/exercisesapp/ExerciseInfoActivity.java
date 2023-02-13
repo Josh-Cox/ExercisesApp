@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.proto.ProtoOutputStream;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +26,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
     public static String filename = "saved";
 
     // array for saved exercises
-    ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
+    ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<>();
 
     // activity accessed from
     String clickedFrom;
@@ -130,7 +128,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
      * @return boolean (false if not exists)
      */
     public boolean checkExists(ExInfoModel obj, ArrayList<ExInfoModel> listObj) {
-        Boolean contains = false;
+        boolean contains = false;
         // loop through list of saved exercises
         for(int i = 0; i < listObj.size(); i++) {
             // if exercises are equal set contains to true
@@ -213,21 +211,16 @@ public class ExerciseInfoActivity extends AppCompatActivity {
      * @param savedExInfoModels
      */
     public void saveEx(Context context, ArrayList<ExInfoModel> savedExInfoModels) {
-        // create file
-        File file = new File(context.getFilesDir(), filename);
 
         try {
 
             // write list to file
-            file.createNewFile();
             FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(savedExInfoModels);
             oos.close();
 
             // catch exceptions
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -236,7 +229,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
     /**
      * get saved exercises from file
      * @param context
-     * @return
+     * @return saved exercises
      */
     public static ArrayList<ExInfoModel> getSavedEx(Context context) {
 
@@ -244,13 +237,12 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         File file = new File(context.getFilesDir(), filename);
 
         // new list of exercises
-        ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
+        ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<>();
 
         // check file is not empty
         if(file.length() != 0) {
             try {
                 // get saved exercises from file
-                file.createNewFile();
                 FileInputStream fis = context.openFileInput(filename);
                 ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -259,11 +251,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
                 ois.close();
 
                 // catch exceptions
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
