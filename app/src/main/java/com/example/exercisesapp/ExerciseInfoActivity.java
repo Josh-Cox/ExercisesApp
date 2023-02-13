@@ -213,9 +213,13 @@ public class ExerciseInfoActivity extends AppCompatActivity {
      * @param savedExInfoModels
      */
     public void saveEx(Context context, ArrayList<ExInfoModel> savedExInfoModels) {
+        // create file
+        File file = new File(context.getFilesDir(), filename);
 
         try {
+
             // write list to file
+            file.createNewFile();
             FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(savedExInfoModels);
@@ -242,23 +246,26 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         // new list of exercises
         ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
 
-        try {
-            // get saved exercises from file
-            file.createNewFile();
-            FileInputStream fis = context.openFileInput(filename);
-            ObjectInputStream ois = new ObjectInputStream(fis);
+        // check file is not empty
+        if(file.length() != 0) {
+            try {
+                // get saved exercises from file
+                file.createNewFile();
+                FileInputStream fis = context.openFileInput(filename);
+                ObjectInputStream ois = new ObjectInputStream(fis);
 
-            // assign values from file to list
-            savedExInfoModels = (ArrayList<ExInfoModel>) ois.readObject();
-            ois.close();
+                // assign values from file to list
+                savedExInfoModels = (ArrayList<ExInfoModel>) ois.readObject();
+                ois.close();
 
-            // catch exceptions
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+                // catch exceptions
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         // return new list of exercises
