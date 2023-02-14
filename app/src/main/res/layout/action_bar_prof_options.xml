@@ -22,7 +22,7 @@
             android:includeFontPadding="false"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@id/menuOrAddIcon"
+            android:layout_toStartOf="@id/backFromMenu"
             android:layout_alignParentStart="true"
             android:ellipsize="end"
             android:fontFamily="@font/khula_semibold"
@@ -33,7 +33,7 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/menuOrAddIcon"
+            android:id="@+id/backFromMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -41,7 +41,7 @@
             app:tint="@color/light_pink"
             android:padding="5dp"
             android:background="@drawable/ripple"
-            android:src="@drawable/ic_menu" />
+            android:src="@drawable/ic_arrow_forward" />
 
     </RelativeLayout>
 

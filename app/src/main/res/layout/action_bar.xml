@@ -23,7 +23,7 @@
             android:padding="5dp"
             android:src="@drawable/ic_back"
             android:background="@drawable/ripple"
-            app:tint="@color/white" />
+            app:tint="@color/light_pink" />
 
         <TextView
             android:id="@+id/pageTitle"
@@ -53,7 +53,7 @@
             android:padding="5dp"
             android:src="@drawable/ic_menu"
             android:background="@drawable/ripple"
-            app:tint="@color/white" />
+            app:tint="@color/light_pink" />
 
     </RelativeLayout>
 
