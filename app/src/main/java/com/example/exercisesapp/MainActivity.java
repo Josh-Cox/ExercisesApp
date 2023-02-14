@@ -2,6 +2,8 @@ package com.example.exercisesapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 import org.parceler.Parcels;
 
@@ -45,13 +48,58 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
 
         // top action bar
+        ImageView filterIcon = findViewById(R.id.menuOrAddIcon);
+        filterIcon.setImageResource(R.drawable.ic_filter);
         TextView tvActionBar = findViewById(R.id.pageTitle);
         tvActionBar.setText(R.string.home_page);
+
+        // side menu
+        DrawerLayout drawerLayout = findViewById(R.id.filter_drawer_layout);
+        NavigationView navigationView = findViewById(R.id.filter_view);
+        View header = navigationView.getHeaderView(0);
+        ImageView backFromMenuIcon = header.findViewById(R.id.backFromMenu);
+        TextView sideMenuText = header.findViewById(R.id.pageTitle);
+        sideMenuText.setText("Filter");
 
         // bottom nav bar
         NavigationBarView navigationBarView = findViewById(R.id.bottom_nav);
         navigationBarView.setSelectedItemId(R.id.home);
 
+        // top action bar listener
+        filterIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+
+        // side menu listeners
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int id = item.getItemId();
+                drawerLayout.closeDrawer(GravityCompat.END);
+
+                switch(id) {
+                    case R.id.item1:
+                        Toast.makeText(MainActivity.this, "Item 1 pressed", Toast.LENGTH_SHORT).show();
+                    case R.id.item2:
+                        Toast.makeText(MainActivity.this, "Item 2 pressed", Toast.LENGTH_SHORT).show();
+                    default:
+                        return true;
+                }
+            }
+        });
+
+        backFromMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(GravityCompat.END);
+            }
+        });
+
+        // bottom nav bar listeners
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             /**
              * Switches the activity to the selected icon
