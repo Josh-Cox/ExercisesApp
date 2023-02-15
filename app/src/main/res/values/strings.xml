@@ -2,4 +2,9 @@
     <string name="app_name">ExercisesApp</string>
     <string name="home_page">Explore</string>
     <string name="profile_page">Profile</string>
+
+    <string name="diff">Filter By Difficulty</string>
+    <string name="muscle">Filter By Muscle</string>
+    <string name="type">Filter By Type</string>
+
 </resources>

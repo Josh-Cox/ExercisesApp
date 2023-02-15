@@ -1,6 +1,7 @@
 package com.example.exercisesapp;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,12 +45,13 @@ public class ExerciseDataService {
      * @param exName
      * @param exInfoByNameResponse
      */
-    public void getExInfoByName(String exName, ExInfoByNameResponse exInfoByNameResponse) {
+    public void getExInfoByName(String exName, String[] filters, ExInfoByNameResponse exInfoByNameResponse) {
         // array of exercise objects
         ArrayList<ExInfoModel> exInfoModels = new ArrayList<>();
 
         // url for API request
-        String url = QUERY_FOR_EX_MUSCLE_BY_NAME + exName;
+        String url = QUERY_FOR_EX_MUSCLE_BY_NAME + exName + "&difficulty=" + filters[0]
+                + "&muscle=" + filters[1] + "&type=" + filters[2];
 
         // get the array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

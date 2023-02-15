@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements RVInterface {
 
@@ -30,6 +34,23 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
     RecyclerView recyclerView;
     private final String STATE_ITEMS = "items";
     private final String STATE_SAVED = "state";
+
+    // options for filters
+    String[] filter_difficulty = {"Any", "Beginner","Intermediate" ,"Expert"};
+    String[] filter_muscle = {"Any", "Abdominals", "Abductors", "Adductors", "Biceps", "Calves", "Chest", "Forearms", "Glutes", "Hamstrings",
+    "Lats", "Lower Back", "Middle Back", "Neck", "Quadriceps", "Traps", "Triceps"};
+    String[] filter_type = {"Any", "Cardio", "Olympic Weight Lifting", "Plyometrics", "Powerlifting", "Strength", "Stretching", "Strongman"};
+
+    // store filter selection
+    String[] selected_filters = {"", "", ""};
+
+    AutoCompleteTextView autoCompleteDiff;
+    AutoCompleteTextView autoCompleteMuscle;
+    AutoCompleteTextView autoCompleteType;
+
+    ArrayAdapter<String> adapterDiff;
+    ArrayAdapter<String> adapterMuscle;
+    ArrayAdapter<String> adapterType;
 
     /**
      * on activity creation
@@ -42,11 +63,21 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
         // assign values for views
         Button btnSearch = findViewById(R.id.btnSearch);
+        Button btnFilters = findViewById(R.id.applyFilters);
         recyclerView = findViewById(R.id.rvSearchList);
         EditText etDataInput = findViewById(R.id.etDataInput);
 
         // define instance of service for communication with API
         ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
+
+        // filter menu
+        autoCompleteDiff = findViewById(R.id.autoCompleteDiff);
+        autoCompleteMuscle = findViewById(R.id.autoCompleteMuscle);
+        autoCompleteType = findViewById(R.id.autoCompleteType);
+
+        adapterDiff = new ArrayAdapter<String>(this, R.layout.filter_dropdown_item, filter_difficulty);
+        adapterMuscle = new ArrayAdapter<String>(this, R.layout.filter_dropdown_item, filter_muscle);
+        adapterType = new ArrayAdapter<String>(this, R.layout.filter_dropdown_item, filter_type);
 
         // top action bar
         ImageView filterIcon = findViewById(R.id.menuOrAddIcon);
@@ -65,6 +96,52 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         // bottom nav bar
         NavigationBarView navigationBarView = findViewById(R.id.bottom_nav);
         navigationBarView.setSelectedItemId(R.id.home);
+
+        //filter menu listener
+        autoCompleteDiff.setAdapter(adapterDiff);
+        autoCompleteMuscle.setAdapter(adapterMuscle);
+        autoCompleteType.setAdapter(adapterType);
+
+        // listeners for filters
+        autoCompleteDiff.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                if(item != "Any") {
+                    selected_filters[0] = item.toLowerCase();
+                }
+                else {
+                    selected_filters[0] = "";
+                }
+
+            }
+        });
+
+        autoCompleteMuscle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                if(item != "Any") {
+                    selected_filters[1] = item.toLowerCase();
+                }
+                else {
+                    selected_filters[1] = "";
+                }
+            }
+        });
+
+        autoCompleteType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                if(item != "Any") {
+                    selected_filters[2] = item.toLowerCase();
+                }
+                else {
+                    selected_filters[2] = "";
+                }
+            }
+        });
 
         // top action bar listener
         filterIcon.setOnClickListener(new View.OnClickListener() {
@@ -131,32 +208,15 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
              */
             @Override
             public void onClick(View view) {
+                searchAPI(exerciseDataService, etDataInput, selected_filters);
+            }
+        });
 
-                exerciseDataService.getExInfoByName(etDataInput.getText().toString(), new ExerciseDataService.ExInfoByNameResponse() {
-                    /**
-                     * catches and returns error with API service communication
-                     * @param message
-                     */
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                    }
-
-                    /**
-                     * creates adapter for recycleView  on API service response
-                     * @param exInfoModels
-                     */
-                    @Override
-                    public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
-
-                        // put the items in the list view
-                        adapter = new RVAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-                    }
-                });
-
+        btnFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchAPI(exerciseDataService, etDataInput, selected_filters);
+                drawerLayout.closeDrawer(GravityCompat.END);
             }
         });
 
@@ -219,4 +279,33 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         }
     }
+
+    public void searchAPI(ExerciseDataService exerciseDataService, EditText etDataInput, String[] filters) {
+
+        exerciseDataService.getExInfoByName(etDataInput.getText().toString(), selected_filters, new ExerciseDataService.ExInfoByNameResponse() {
+            /**
+             * catches and returns error with API service communication
+             * @param message
+             */
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+
+            /**
+             * creates adapter for recycleView  on API service response
+             * @param exInfoModels
+             */
+            @Override
+            public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
+
+                // put the items in the list view
+                adapter = new RVAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+            }
+        });
+    }
+
 }
