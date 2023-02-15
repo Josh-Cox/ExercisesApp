@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
     RVAdapter adapter;
     RecyclerView recyclerView;
     private final String STATE_ITEMS = "items";
+    private final String STATE_SAVED = "state";
 
     /**
      * on activity creation
@@ -188,9 +189,16 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
+        // check if adapter is empty
         if(adapter != null) {
+            // send items
             outState.putSerializable(STATE_ITEMS, adapter.getItems());
+
+            // send boolean to say that items were saved
+            outState.putBoolean(STATE_SAVED, true);
         }
+
         super.onSaveInstanceState(outState);
     }
 
@@ -202,9 +210,13 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        // put the items in the list view
-        adapter = new RVAdapter(MainActivity.this, (ArrayList<ExInfoModel>) savedInstanceState.getSerializable(STATE_ITEMS), MainActivity.this, "main");
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        // check if items were in adapter
+        if(savedInstanceState.getBoolean(STATE_SAVED)) {
+
+            // put the items in the recycler view
+            adapter = new RVAdapter(MainActivity.this, (ArrayList<ExInfoModel>) savedInstanceState.getSerializable(STATE_ITEMS), MainActivity.this, "main");
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        }
     }
 }
