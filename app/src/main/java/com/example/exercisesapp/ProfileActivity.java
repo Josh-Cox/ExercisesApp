@@ -7,9 +7,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,9 +92,20 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
                 switch(id) {
                     case R.id.item1:
-                        Toast.makeText(context, "Item 1 pressed", Toast.LENGTH_SHORT).show();
-                    case R.id.item2:
-                        Toast.makeText(context, "Item 2 pressed", Toast.LENGTH_SHORT).show();
+
+                    case R.id.findGyms:
+                        // build intent
+                        Uri location = Uri.parse("https://www.google.com/maps/search/gyms+near+me/");
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+                        Intent chooser = Intent.createChooser(mapIntent, "Maps");
+
+                        try {
+                            startActivity(chooser);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(context, "No suitable app found", Toast.LENGTH_SHORT).show();
+                        }
+
+
                     default:
                         return true;
                 }
