@@ -49,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/dark_grey"
+        app:itemTextColor="@color/white"
         app:headerLayout="@layout/action_bar_prof_options"
         android:layout_gravity="end"
         app:menu="@menu/side_menu_prof"

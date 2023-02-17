@@ -7,6 +7,6 @@
     <item
         android:id="@+id/findGyms"
         android:title="Gyms near me"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/ic_location"
         />
 </menu>
