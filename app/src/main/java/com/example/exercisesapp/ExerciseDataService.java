@@ -1,7 +1,6 @@
 package com.example.exercisesapp;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -42,8 +41,8 @@ public class ExerciseDataService {
 
     /**
      * gets a list of up to 10 exercise objects as a result of a name search
-     * @param exName
-     * @param exInfoByNameResponse
+     * @param exName exercise name
+     * @param exInfoByNameResponse exercise info from the given name
      */
     public void getExInfoByName(String exName, String[] filters, ExInfoByNameResponse exInfoByNameResponse) {
         // array of exercise objects
@@ -58,7 +57,7 @@ public class ExerciseDataService {
 
             /**
              * on API service response, collect and format the data
-             * @param response
+             * @param response response of the api request
              */
             @Override
             public void onResponse(JSONArray response) {
@@ -96,7 +95,7 @@ public class ExerciseDataService {
         }, new Response.ErrorListener() {
             /**
              * catch and return Volley error
-             * @param error
+             * @param error error on api request
              */
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -106,12 +105,12 @@ public class ExerciseDataService {
         )   {
             /**
              * add API key as a header in the API request
-             * @return
-             * @throws AuthFailureError
+             * @return header with api key
+             * @throws AuthFailureError authentication failure
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("X-Api-Key", API_KEY);
 
                 return params;

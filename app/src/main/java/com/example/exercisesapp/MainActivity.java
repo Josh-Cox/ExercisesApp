@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import com.google.android.material.navigation.NavigationView;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements RVInterface {
 
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
     /**
      * on activity creation
-     * @param savedInstanceState
+     * @param savedInstanceState current instance of activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         autoCompleteMuscle = findViewById(R.id.autoCompleteMuscle);
         autoCompleteType = findViewById(R.id.autoCompleteType);
 
-        adapterDiff = new ArrayAdapter<String>(this, R.layout.filter_dropdown_item, filter_difficulty);
-        adapterMuscle = new ArrayAdapter<String>(this, R.layout.filter_dropdown_item, filter_muscle);
-        adapterType = new ArrayAdapter<String>(this, R.layout.filter_dropdown_item, filter_type);
+        adapterDiff = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_difficulty);
+        adapterMuscle = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_muscle);
+        adapterType = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_type);
 
         // top action bar
         ImageView filterIcon = findViewById(R.id.menuOrAddIcon);
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         View header = navigationView.getHeaderView(0);
         ImageView backFromMenuIcon = header.findViewById(R.id.backFromMenu);
         TextView sideMenuText = header.findViewById(R.id.pageTitle);
-        sideMenuText.setText("Filter");
+        sideMenuText.setText(R.string.main_side_menu);
 
         // bottom nav bar
         NavigationBarView navigationBarView = findViewById(R.id.bottom_nav);
@@ -103,79 +101,57 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         autoCompleteType.setAdapter(adapterType);
 
         // listeners for filters
-        autoCompleteDiff.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                if(item != "Any") {
-                    selected_filters[0] = item.toLowerCase();
-                }
-                else {
-                    selected_filters[0] = "";
-                }
+        autoCompleteDiff.setOnItemClickListener((adapterView, view, i, l) -> {
+            String item = adapterView.getItemAtPosition(i).toString();
+            if(!item.equals("Any")) {
+                selected_filters[0] = item.toLowerCase();
+            }
+            else {
+                selected_filters[0] = "";
+            }
 
+        });
+
+        autoCompleteMuscle.setOnItemClickListener((adapterView, view, i, l) -> {
+            String item = adapterView.getItemAtPosition(i).toString();
+            if(!item.equals("Any")) {
+                selected_filters[1] = item.toLowerCase();
+            }
+            else {
+                selected_filters[1] = "";
             }
         });
 
-        autoCompleteMuscle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                if(item != "Any") {
-                    selected_filters[1] = item.toLowerCase();
-                }
-                else {
-                    selected_filters[1] = "";
-                }
+        autoCompleteType.setOnItemClickListener((adapterView, view, i, l) -> {
+            String item = adapterView.getItemAtPosition(i).toString();
+            if(!item.equals("Any")) {
+                selected_filters[2] = item.toLowerCase();
             }
-        });
-
-        autoCompleteType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                if(item != "Any") {
-                    selected_filters[2] = item.toLowerCase();
-                }
-                else {
-                    selected_filters[2] = "";
-                }
+            else {
+                selected_filters[2] = "";
             }
         });
 
         // top action bar listener
-        filterIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
+        filterIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
 
         // side menu listeners
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        navigationView.setNavigationItemSelectedListener(item -> {
 
-                int id = item.getItemId();
-                drawerLayout.closeDrawer(GravityCompat.END);
+            int id = item.getItemId();
+            drawerLayout.closeDrawer(GravityCompat.END);
 
-                switch(id) {
-                    case R.id.item1:
-                        Toast.makeText(MainActivity.this, "Item 1 pressed", Toast.LENGTH_SHORT).show();
-                    case R.id.item2:
-                        Toast.makeText(MainActivity.this, "Item 2 pressed", Toast.LENGTH_SHORT).show();
-                    default:
-                        return true;
-                }
+            switch(id) {
+                case R.id.item1:
+                    Toast.makeText(MainActivity.this, "Item 1 pressed", Toast.LENGTH_SHORT).show();
+                case R.id.item2:
+                    Toast.makeText(MainActivity.this, "Item 2 pressed", Toast.LENGTH_SHORT).show();
+                default:
+                    return true;
             }
         });
 
-        backFromMenuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawer(GravityCompat.END);
-            }
-        });
+        backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
 
         // bottom nav bar listeners
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -204,29 +180,26 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             /**
              * onClick listener for the search button
-             * @param view
+             * @param view button view to set the on click listener to
              */
             @Override
             public void onClick(View view) {
-                searchAPI(exerciseDataService, etDataInput, selected_filters);
+                searchAPI(exerciseDataService, etDataInput);
             }
         });
 
-        btnFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchAPI(exerciseDataService, etDataInput, selected_filters);
-                drawerLayout.closeDrawer(GravityCompat.END);
-            }
+        btnFilters.setOnClickListener(view -> {
+            searchAPI(exerciseDataService, etDataInput);
+            drawerLayout.closeDrawer(GravityCompat.END);
         });
 
     }
 
     /**
      * on item click in recyclerView
-     * @param position
-     * @param exInfoModels
-     * @param clickedFrom
+     * @param position position of item clicked in the array
+     * @param exInfoModels list of exercises
+     * @param clickedFrom activity that the user was on
      */
     @Override
     public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
@@ -245,10 +218,10 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
     /**
      * save the state of the instance of the activity (recyclerView)
-     * @param outState
+     * @param outState bundle of saved state
      */
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
 
         // check if adapter is empty
         if(adapter != null) {
@@ -264,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
     /**
      * restore the state of the instance of the activity (recyclerView)
-     * @param savedInstanceState
+     * @param savedInstanceState current state of activity
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -280,12 +253,12 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         }
     }
 
-    public void searchAPI(ExerciseDataService exerciseDataService, EditText etDataInput, String[] filters) {
+    public void searchAPI(ExerciseDataService exerciseDataService, EditText etDataInput) {
 
         exerciseDataService.getExInfoByName(etDataInput.getText().toString(), selected_filters, new ExerciseDataService.ExInfoByNameResponse() {
             /**
              * catches and returns error with API service communication
-             * @param message
+             * @param message error message
              */
             @Override
             public void onError(String message) {
@@ -294,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
             /**
              * creates adapter for recycleView  on API service response
-             * @param exInfoModels
+             * @param exInfoModels list of exercises
              */
             @Override
             public void onResponse(ArrayList<ExInfoModel> exInfoModels) {

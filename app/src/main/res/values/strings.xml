@@ -7,4 +7,7 @@
     <string name="muscle">Filter By Muscle</string>
     <string name="type">Filter By Type</string>
 
+    <string name="profile_side_menu">Customize</string>
+    <string name="main_side_menu">Filter</string>
+
 </resources>

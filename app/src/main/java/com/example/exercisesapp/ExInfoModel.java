@@ -17,12 +17,12 @@ public class ExInfoModel implements Serializable {
 
     /**
      * constructor for exercise model
-     * @param name
-     * @param type
-     * @param muscle
-     * @param equipment
-     * @param difficulty
-     * @param instructions
+     * @param name name of exercise
+     * @param type type of exercise
+     * @param muscle muscle that exercise works
+     * @param equipment equipment that exercise uses
+     * @param difficulty difficulty of exercise
+     * @param instructions instructions for exercise
      */
     public ExInfoModel(String name, String type, String muscle, String equipment, String difficulty, String instructions) {
         this.name = name;
@@ -64,7 +64,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * set exercise name
-     * @param name
+     * @param name name of exercise
      */
     public void setName(String name) {
         this.name = name;
@@ -80,7 +80,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * set exercise type
-     * @param type
+     * @param type type of exercise
      */
     public void setType(String type) {
         this.type = type;
@@ -96,7 +96,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * set exercise muscle
-     * @param muscle
+     * @param muscle exercise that muscle works
      */
     public void setMuscle(String muscle) {
         this.muscle = muscle;
@@ -112,7 +112,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * set exercise equipment
-     * @param equipment
+     * @param equipment equipment that exercise uses
      */
     public void setEquipment(String equipment) {
         this.equipment = equipment;
@@ -128,7 +128,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * set exercise difficulty
-     * @param difficulty
+     * @param difficulty difficulty of exercise
      */
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
@@ -136,7 +136,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * get exercise instructions
-     * @return
+     * @return instructions for the exercise
      */
     public String getInstructions() {
         return instructions;
@@ -144,7 +144,7 @@ public class ExInfoModel implements Serializable {
 
     /**
      * set exercise instructions
-     * @param instructions
+     * @param instructions instructions for exercise
      */
     public void setInstructions(String instructions) {
         this.instructions = instructions;

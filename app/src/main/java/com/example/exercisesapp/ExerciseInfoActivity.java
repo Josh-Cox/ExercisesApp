@@ -13,7 +13,6 @@ import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,7 +32,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
     /**
      * on activity creation
-     * @param savedInstanceState
+     * @param savedInstanceState current state of activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
             addIcon.setOnClickListener(new View.OnClickListener() {
                 /**
                  * on delete icon clicked, delete exercise
-                 * @param view
+                 * @param view image view to set a click listener on
                  */
                 @Override
                 public void onClick(View view) {
@@ -96,7 +95,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
             addIcon.setOnClickListener(new View.OnClickListener() {
                 /**
                  * on add icon clicked, add exercise
-                 * @param view
+                 * @param view image view to set a click listener on
                  */
                 @Override
                 public void onClick(View view) {
@@ -109,7 +108,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         backIcon.setOnClickListener(new View.OnClickListener() {
             /**
              * on back icon clicked, go to previous page
-             * @param view
+             * @param view image view to set a click listener on
              */
             @Override
             public void onClick(View view) {
@@ -123,8 +122,8 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
     /**
      * check if exercise already exists in saved exercises
-     * @param obj
-     * @param listObj
+     * @param obj exercise object (ExInfoModel)
+     * @param listObj list of exercise objects
      * @return boolean (false if not exists)
      */
     public boolean checkExists(ExInfoModel obj, ArrayList<ExInfoModel> listObj) {
@@ -139,8 +138,8 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
     /**
      * add exercise to saved exercises
-     * @param context
-     * @param exInfoModel
+     * @param context context to add the exercise in
+     * @param exInfoModel exercise to add
      */
     public void addEx(Context context, ExInfoModel exInfoModel) {
 
@@ -168,8 +167,8 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
     /**
      * delete exercise from saved exercises
-     * @param context
-     * @param exInfoModel
+     * @param context context to delete the exercise in
+     * @param exInfoModel exercise to delete
      */
     public void delEx(Context context, ExInfoModel exInfoModel) {
 
@@ -207,8 +206,8 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
     /**
      * save exercises list to file
-     * @param context
-     * @param savedExInfoModels
+     * @param context context to save the exercise in
+     * @param savedExInfoModels list of saved exercises to save
      */
     public void saveEx(Context context, ArrayList<ExInfoModel> savedExInfoModels) {
 
@@ -228,7 +227,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
     /**
      * get saved exercises from file
-     * @param context
+     * @param context context to get the saved exercises from
      * @return saved exercises
      */
     public static ArrayList<ExInfoModel> getSavedEx(Context context) {
@@ -259,5 +258,4 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         // return new list of exercises
         return savedExInfoModels;
     }
-
 }

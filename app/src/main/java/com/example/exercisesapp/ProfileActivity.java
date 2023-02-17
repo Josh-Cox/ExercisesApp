@@ -1,26 +1,23 @@
 package com.example.exercisesapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationBarItemView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -35,12 +32,13 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
     NavigationBarView navigationBarView;
     RecyclerView recyclerView;
-    ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<ExInfoModel>();
+    ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<>();
     Context context = ProfileActivity.this;
     TextView tvActionBar;
     RVAdapter adapter;
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +55,11 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         View header = navigationView.getHeaderView(0);
         ImageView backFromMenuIcon = header.findViewById(R.id.backFromMenu);
         TextView sideMenuText = header.findViewById(R.id.pageTitle);
-        sideMenuText.setText("Customize");
+        sideMenuText.setText(R.string.profile_side_menu);
 
 
         // set attributes
         recyclerView = findViewById(R.id.rvSavedList);
-
-        String filename = "saved";
 
         // get saved exercises from file
         savedExInfoModels = ExerciseInfoActivity.getSavedEx(ProfileActivity.this);
@@ -75,70 +71,53 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
 
         // top action bar listener
-        menuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
+        menuIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
 
         // side menu listeners
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        navigationView.setNavigationItemSelectedListener(item -> {
 
-                int id = item.getItemId();
-                drawerLayout.closeDrawer(GravityCompat.END);
+            int id = item.getItemId();
+            drawerLayout.closeDrawer(GravityCompat.END);
 
-                switch(id) {
-                    case R.id.item1:
+            switch(id) {
+                case R.id.item1:
 
-                    case R.id.findGyms:
-                        // build intent
-                        Uri location = Uri.parse("https://www.google.com/maps/search/gyms+near+me/");
-                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
-                        Intent chooser = Intent.createChooser(mapIntent, "Maps");
+                case R.id.findGyms:
+                    // build intent
+                    Uri location = Uri.parse("https://www.google.com/maps/search/gyms+near+me/");
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+                    Intent chooser = Intent.createChooser(mapIntent, "Maps");
 
-                        try {
-                            startActivity(chooser);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(context, "No suitable app found", Toast.LENGTH_SHORT).show();
-                        }
+                    try {
+                        startActivity(chooser);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(context, "No suitable app found", Toast.LENGTH_SHORT).show();
+                    }
 
 
-                    default:
-                        return true;
-                }
+                default:
+                    return true;
             }
         });
 
-        backFromMenuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawer(GravityCompat.END);
-            }
-        });
+        backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
 
 
         // bottom nav bar
         navigationBarView = findViewById(R.id.bottom_nav);
         navigationBarView.setSelectedItemId(R.id.profile);
 
-        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        navigationBarView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.profile:
+                    return true;
 
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.profile:
-                        return true;
-
-                    case R.id.home:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
             }
+            return false;
         });
     }
 
@@ -152,14 +131,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         intent.putExtras(bundle);
 
         startActivity(intent);
-    }
-
-    public void refreshActivity() {
-        Intent i = new Intent(ProfileActivity.this, ProfileActivity.class);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(i);
-        overridePendingTransition(0, 0);
     }
 
     // override onResume to re-create activity (to refresh recycleView)
