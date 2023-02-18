@@ -5,12 +5,20 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#e0e0e0</color>
+    <color name="off_white">#e8e8e8</color>
+    <color name="white">#FFFFFF</color>
 
-    <color name="dark_grey">#000000</color>
-    <color name="grey">#141414</color>
+    <color name="black">#000000</color>
+    <color name="dark_grey">#141414</color>
     <color name="pink">#E8175D</color>
     <color name="light_pink">#CC527A</color>
-    <color name="light_grey">#A8A7A7</color>
+    <color name="grey">#A8A7A7</color>
+
+    <color name="cream">#e0e0e0</color>
+    <color name="yellow">#ffd500</color>
+    <color name="green">#0dff00</color>
+    <color name="blue">#0091ff</color>
+    <color name="purple">#ae00ff</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color">@color/grey</color>
 </resources>

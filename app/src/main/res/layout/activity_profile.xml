@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:background="@color/dark_grey"
+    android:background="?attr/colorPrimary"
     tools:context=".ProfileActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -24,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/grey"
-            app:itemBackground="@color/grey"
+            android:background="?attr/colorPrimaryVariant"
+            app:itemBackground="?attr/colorPrimaryVariant"
             app:itemIconTint="@drawable/bottom_nav_selector"
             app:itemTextColor="@drawable/bottom_nav_selector"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,14 +45,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/side_nav_view"
+        android:id="@+id/menu_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/dark_grey"
-        app:itemTextColor="@color/white"
+        android:background="?attr/colorPrimary"
         app:headerLayout="@layout/action_bar_prof_options"
-        android:layout_gravity="end"
+        app:itemIconTint="?attr/colorSecondary"
         app:menu="@menu/side_menu_prof"
-        app:itemIconTint="@color/light_pink"
-        />
+        android:layout_gravity="end"
+        >
+
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

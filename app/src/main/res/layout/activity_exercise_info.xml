@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="?attr/colorPrimary"
     tools:context=".ExerciseInfoActivity">
 
     <include
@@ -37,7 +37,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="40dp"
                 android:text="Type"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMuscle" />
@@ -49,7 +49,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="1dp"
                 android:text="Type"
-                android:textColor="@color/light_grey"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tvTypeTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvTypeTitle" />
@@ -61,7 +61,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:text="Difficulty"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tvType"
                 app:layout_constraintTop_toBottomOf="@+id/tvType" />
@@ -73,7 +73,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="1dp"
                 android:text="Difficulty"
-                android:textColor="@color/light_grey"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tvDifficultyTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvDifficultyTitle" />
@@ -85,7 +85,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:text="Muscle"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/tvMuscle"
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
@@ -97,7 +97,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="1dp"
                 android:text="Muscle"
-                android:textColor="@color/light_grey"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMuscleTitle" />
@@ -109,7 +109,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:text="Equipment"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tvDifficulty"
                 app:layout_constraintTop_toBottomOf="@+id/tvDifficulty" />
@@ -121,7 +121,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="1dp"
                 android:text="Equipment"
-                android:textColor="@color/light_grey"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tvEquipmentTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvEquipmentTitle" />
@@ -133,7 +133,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="30dp"
                 android:text="Instructions"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvEquipment" />
@@ -149,7 +149,7 @@
                 android:gravity="left"
                 android:scrollbars="vertical"
                 android:text="Instructions"
-                android:textColor="@color/light_grey"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

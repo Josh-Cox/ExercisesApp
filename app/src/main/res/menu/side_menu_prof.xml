@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <item
-        android:id="@+id/item1"
-        android:title="Item 1"
-        android:icon="@drawable/ic_menu" />
+        android:id="@+id/dark_mode"
+        android:title="Dark Mode"
+        app:actionViewClass="android.widget.Switch"
+        android:checkable="true"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_theme" />
     <item
         android:id="@+id/findGyms"
         android:title="Gyms near me"

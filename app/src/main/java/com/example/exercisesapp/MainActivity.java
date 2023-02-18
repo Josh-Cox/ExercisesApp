@@ -2,12 +2,14 @@ package com.example.exercisesapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
     ArrayAdapter<String> adapterMuscle;
     ArrayAdapter<String> adapterType;
 
+
     /**
      * on activity creation
      * @param savedInstanceState current instance of activity
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // assign values for views
         Button btnSearch = findViewById(R.id.btnSearch);
@@ -135,21 +139,6 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         // top action bar listener
         filterIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
 
-        // side menu listeners
-        navigationView.setNavigationItemSelectedListener(item -> {
-
-            int id = item.getItemId();
-            drawerLayout.closeDrawer(GravityCompat.END);
-
-            switch(id) {
-                case R.id.item1:
-                    Toast.makeText(MainActivity.this, "Item 1 pressed", Toast.LENGTH_SHORT).show();
-                case R.id.item2:
-                    Toast.makeText(MainActivity.this, "Item 2 pressed", Toast.LENGTH_SHORT).show();
-                default:
-                    return true;
-            }
-        });
 
         backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
 
@@ -280,5 +269,6 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
             }
         });
     }
+
 
 }

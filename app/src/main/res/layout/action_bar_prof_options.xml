@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey">
+    android:background="?attr/colorPrimaryVariant">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:maxLines="1"
             android:scrollHorizontally="true"
             android:text="Title page"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="18sp" />
 
         <ImageView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:tint="@color/light_pink"
+            app:tint="?attr/colorSecondary"
             android:padding="5dp"
             android:background="@drawable/ripple"
             android:src="@drawable/ic_arrow_forward" />

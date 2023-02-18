@@ -1,20 +1,31 @@
 package com.example.exercisesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +40,8 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
     // refresh boolean
     static boolean refreshed = true;
+    private boolean dark_mode = true;
+
 
     NavigationBarView navigationBarView;
     RecyclerView recyclerView;
@@ -36,13 +49,14 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
     Context context = ProfileActivity.this;
     TextView tvActionBar;
     RVAdapter adapter;
+    Switch dark_mode_switch;
 
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
 
         // top action bar
         ImageView menuIcon = findViewById(R.id.menuOrAddIcon);
@@ -51,12 +65,13 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
         // side menu
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.side_nav_view);
+        NavigationView navigationView = findViewById(R.id.menu_view);
         View header = navigationView.getHeaderView(0);
         ImageView backFromMenuIcon = header.findViewById(R.id.backFromMenu);
         TextView sideMenuText = header.findViewById(R.id.pageTitle);
         sideMenuText.setText(R.string.profile_side_menu);
-
+        Menu menu = navigationView.getMenu();
+        dark_mode_switch = (Switch) menu.findItem(R.id.dark_mode).getActionView();
 
         // set attributes
         recyclerView = findViewById(R.id.rvSavedList);
@@ -73,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         // top action bar listener
         menuIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
 
+
         // side menu listeners
         navigationView.setNavigationItemSelectedListener(item -> {
 
@@ -80,7 +96,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
             drawerLayout.closeDrawer(GravityCompat.END);
 
             switch(id) {
-                case R.id.item1:
 
                 case R.id.findGyms:
                     // build intent
@@ -142,10 +157,8 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
             recreate();
             refreshed = true;
         }
+
         // still call onResume
         super.onResume();
     }
-
-
-
 }
