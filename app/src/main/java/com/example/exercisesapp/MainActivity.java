@@ -186,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
              */
             @Override
             public void onClick(View view) {
-
                 viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
             }
         });
