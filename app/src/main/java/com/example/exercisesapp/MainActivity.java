@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +31,9 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RVInterface {
+
+    // view model
+
 
     RVAdapter adapter;
     RecyclerView recyclerView;
@@ -62,6 +67,14 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // view model
+        ExViewModel viewModel = new ViewModelProvider(MainActivity.this).get(ExViewModel.class);
+        viewModel.getEx().observe(this, exerciseArray -> {
+                // put the items in the list view
+                adapter = new RVAdapter(MainActivity.this, exerciseArray, MainActivity.this, "main");
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        });
 
         // assign values for views
         Button btnSearch = findViewById(R.id.btnSearch);
@@ -173,12 +186,13 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
              */
             @Override
             public void onClick(View view) {
-                searchAPI(exerciseDataService, etDataInput);
+
+                viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
             }
         });
 
         btnFilters.setOnClickListener(view -> {
-            searchAPI(exerciseDataService, etDataInput);
+            viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
             drawerLayout.closeDrawer(GravityCompat.END);
         });
 
@@ -204,71 +218,5 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         // start intent to move to exercise details activity
         startActivity(intent);
     }
-
-    /**
-     * save the state of the instance of the activity (recyclerView)
-     * @param outState bundle of saved state
-     */
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-
-        // check if adapter is empty
-        if(adapter != null) {
-            // send items
-            outState.putSerializable(STATE_ITEMS, adapter.getItems());
-
-            // send boolean to say that items were saved
-            outState.putBoolean(STATE_SAVED, true);
-        }
-
-        super.onSaveInstanceState(outState);
-    }
-
-    /**
-     * restore the state of the instance of the activity (recyclerView)
-     * @param savedInstanceState current state of activity
-     */
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        // check if items were in adapter
-        if(savedInstanceState.getBoolean(STATE_SAVED)) {
-
-            // put the items in the recycler view
-            adapter = new RVAdapter(MainActivity.this, (ArrayList<ExInfoModel>) savedInstanceState.getSerializable(STATE_ITEMS), MainActivity.this, "main");
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        }
-    }
-
-    public void searchAPI(ExerciseDataService exerciseDataService, EditText etDataInput) {
-
-        exerciseDataService.getExInfoByName(etDataInput.getText().toString(), selected_filters, new ExerciseDataService.ExInfoByNameResponse() {
-            /**
-             * catches and returns error with API service communication
-             * @param message error message
-             */
-            @Override
-            public void onError(String message) {
-                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-            }
-
-            /**
-             * creates adapter for recycleView  on API service response
-             * @param exInfoModels list of exercises
-             */
-            @Override
-            public void onResponse(ArrayList<ExInfoModel> exInfoModels) {
-
-                // put the items in the list view
-                adapter = new RVAdapter(MainActivity.this, exInfoModels, MainActivity.this, "main");
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-            }
-        });
-    }
-
 
 }
