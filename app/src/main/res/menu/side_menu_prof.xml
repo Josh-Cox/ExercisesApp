@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <item
-        android:id="@+id/dark_mode"
-        android:title="Dark Mode"
-        app:actionViewClass="android.widget.Switch"
-        android:checkable="true"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_theme" />
-    <item
         android:id="@+id/findGyms"
         android:title="Gyms near me"
         android:icon="@drawable/ic_location"

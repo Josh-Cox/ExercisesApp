@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         autoCompleteMuscle = findViewById(R.id.autoCompleteMuscle);
         autoCompleteType = findViewById(R.id.autoCompleteType);
 
+
         adapterDiff = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_difficulty);
         adapterMuscle = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_muscle);
         adapterType = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_type);
@@ -216,6 +217,14 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
         // start intent to move to exercise details activity
         startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        autoCompleteDiff.setText("", false);
+        autoCompleteMuscle.setText("", false);
+        autoCompleteType.setText("", false);
     }
 
 }

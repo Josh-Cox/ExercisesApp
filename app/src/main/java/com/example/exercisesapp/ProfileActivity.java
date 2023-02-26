@@ -40,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
     // refresh boolean
     static boolean refreshed = true;
-    private boolean dark_mode = true;
 
 
     NavigationBarView navigationBarView;
@@ -49,7 +48,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
     Context context = ProfileActivity.this;
     TextView tvActionBar;
     RVAdapter adapter;
-    Switch dark_mode_switch;
 
 
     @Override
@@ -71,7 +69,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         TextView sideMenuText = header.findViewById(R.id.pageTitle);
         sideMenuText.setText(R.string.profile_side_menu);
         Menu menu = navigationView.getMenu();
-        dark_mode_switch = (Switch) menu.findItem(R.id.dark_mode).getActionView();
 
         // set attributes
         recyclerView = findViewById(R.id.rvSavedList);
