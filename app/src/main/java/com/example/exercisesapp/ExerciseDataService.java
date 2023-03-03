@@ -1,10 +1,16 @@
 package com.example.exercisesapp;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 
@@ -95,11 +101,21 @@ public class ExerciseDataService {
         }, new Response.ErrorListener() {
             /**
              * catch and return Volley error
-             * @param error error on api request
+             * @param volleyError error on api request
              */
             @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+            public void onErrorResponse(VolleyError volleyError) {
+                String message = null;
+                if (volleyError instanceof NetworkError || volleyError instanceof AuthFailureError || volleyError instanceof NoConnectionError || volleyError instanceof TimeoutError) {
+                    message = "Cannot connect to Internet";
+                } else if (volleyError instanceof ServerError) {
+                    message = "The server could not be found. Please try again later";
+                }  else if (volleyError instanceof ParseError) {
+                    message = "Parsing error! Please try again later";
+                }
+
+                Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
             }
         }
         )   {
