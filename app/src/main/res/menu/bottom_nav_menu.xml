@@ -8,9 +8,14 @@
             />
 
         <item
+            android:id="@+id/timer"
+            android:title="Timer"
+            android:icon="@drawable/ic_timer"
+            />
+
+        <item
             android:id="@+id/profile"
             android:title="Profile"
             android:icon="@drawable/ic_profile"
-
             />
 </menu>

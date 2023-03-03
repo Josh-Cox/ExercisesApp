@@ -85,7 +85,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         // top action bar listener
         menuIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
 
-
         // side menu listeners
         navigationView.setNavigationItemSelectedListener(item -> {
 
@@ -114,7 +113,6 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
         backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
 
-
         // bottom nav bar
         navigationBarView = findViewById(R.id.bottom_nav);
         navigationBarView.setSelectedItemId(R.id.profile);
@@ -122,6 +120,11 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         navigationBarView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.profile:
+                    return true;
+
+                case R.id.timer:
+                    startActivity(new Intent(getApplicationContext(), TimerActivity.class));
+                    overridePendingTransition(0, 0);
                     return true;
 
                 case R.id.home:

@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -31,9 +32,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RVInterface {
-
-    // view model
-
 
     RVAdapter adapter;
     RecyclerView recyclerView;
@@ -152,8 +150,6 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
 
         // top action bar listener
         filterIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
-
-
         backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
 
         // bottom nav bar listeners
@@ -168,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
                 switch (item.getItemId()) {
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+                    case R.id.timer:
+                        startActivity(new Intent(getApplicationContext(), TimerActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
             @Override
             public void onClick(View view) {
                 viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
+                closeKeyboard();
             }
         });
 
@@ -196,6 +198,17 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
             drawerLayout.closeDrawer(GravityCompat.END);
         });
 
+    }
+
+    /**
+     * close the keyboard
+     */
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if(view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     /**
