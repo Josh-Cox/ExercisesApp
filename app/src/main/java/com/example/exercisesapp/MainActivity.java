@@ -2,16 +2,13 @@ package com.example.exercisesapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
@@ -33,27 +29,45 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RVInterface {
 
+    // -------------------- define views -------------------- //
+
+    // main content
     RVAdapter adapter;
     RecyclerView recyclerView;
-    private final String STATE_ITEMS = "items";
-    private final String STATE_SAVED = "state";
+    Button btnSearch;
+    Button btnFilters;
+    EditText etDataInput;
 
-    // options for filters
+    // top action bar
+    ImageView filterIcon;
+    TextView tvActionBar;
+
+    // bottom nav bar
+    NavigationBarView navigationBarView;
+
+    // filter menu
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    View header;
+    ImageView backFromMenuIcon;
+    TextView sideMenuText;
+    AutoCompleteTextView autoCompleteDiff;
+    AutoCompleteTextView autoCompleteMuscle;
+    AutoCompleteTextView autoCompleteType;
+    ArrayAdapter<String> adapterDiff;
+    ArrayAdapter<String> adapterMuscle;
+    ArrayAdapter<String> adapterType;
+
+    // -------------------- filter options -------------------- //
+
     String[] filter_difficulty = {"Any", "Beginner","Intermediate" ,"Expert"};
     String[] filter_muscle = {"Any", "Abdominals", "Abductors", "Adductors", "Biceps", "Calves", "Chest", "Forearms", "Glutes", "Hamstrings",
     "Lats", "Lower Back", "Middle Back", "Neck", "Quadriceps", "Traps", "Triceps"};
     String[] filter_type = {"Any", "Cardio", "Olympic Weight Lifting", "Plyometrics", "Powerlifting", "Strength", "Stretching", "Strongman"};
 
-    // store filter selection
     String[] selected_filters = {"", "", ""};
 
-    AutoCompleteTextView autoCompleteDiff;
-    AutoCompleteTextView autoCompleteMuscle;
-    AutoCompleteTextView autoCompleteType;
 
-    ArrayAdapter<String> adapterDiff;
-    ArrayAdapter<String> adapterMuscle;
-    ArrayAdapter<String> adapterType;
 
 
     /**
@@ -65,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // -------------------- main setup -------------------- //
+
         // view model
         ExViewModel viewModel = new ViewModelProvider(MainActivity.this).get(ExViewModel.class);
         viewModel.getEx().observe(this, exerciseArray -> {
@@ -75,41 +91,36 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         });
 
         // assign values for views
-        Button btnSearch = findViewById(R.id.btnSearch);
-        Button btnFilters = findViewById(R.id.applyFilters);
-        recyclerView = findViewById(R.id.rvSearchList);
-        EditText etDataInput = findViewById(R.id.etDataInput);
+        init();
 
         // define instance of service for communication with API
         ExerciseDataService exerciseDataService = new ExerciseDataService(MainActivity.this);
 
-        // filter menu
-        autoCompleteDiff = findViewById(R.id.autoCompleteDiff);
-        autoCompleteMuscle = findViewById(R.id.autoCompleteMuscle);
-        autoCompleteType = findViewById(R.id.autoCompleteType);
+        // btn listeners
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick listener for the search button
+             * @param view button view to set the on click listener to
+             */
+            @Override
+            public void onClick(View view) {
+                viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
+                closeKeyboard();
+            }
+        });
+
+        btnFilters.setOnClickListener(view -> {
+            viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
+            drawerLayout.closeDrawer(GravityCompat.END);
+        });
 
 
+        // -------------------- filter menu -------------------- //
+
+        // filter menu adapters
         adapterDiff = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_difficulty);
         adapterMuscle = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_muscle);
         adapterType = new ArrayAdapter<>(this, R.layout.filter_dropdown_item, filter_type);
-
-        // top action bar
-        ImageView filterIcon = findViewById(R.id.menuOrAddIcon);
-        filterIcon.setImageResource(R.drawable.ic_filter);
-        TextView tvActionBar = findViewById(R.id.pageTitle);
-        tvActionBar.setText(R.string.home_page);
-
-        // side menu
-        DrawerLayout drawerLayout = findViewById(R.id.filter_drawer_layout);
-        NavigationView navigationView = findViewById(R.id.filter_view);
-        View header = navigationView.getHeaderView(0);
-        ImageView backFromMenuIcon = header.findViewById(R.id.backFromMenu);
-        TextView sideMenuText = header.findViewById(R.id.pageTitle);
-        sideMenuText.setText(R.string.main_side_menu);
-
-        // bottom nav bar
-        NavigationBarView navigationBarView = findViewById(R.id.bottom_nav);
-        navigationBarView.setSelectedItemId(R.id.home);
 
         //filter menu listener
         autoCompleteDiff.setAdapter(adapterDiff);
@@ -148,9 +159,13 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
             }
         });
 
+        // -------------------- action bar -------------------- //
+
         // top action bar listener
         filterIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
         backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
+
+        // -------------------- nav bar -------------------- //
 
         // bottom nav bar listeners
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -162,42 +177,22 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.profile:
+                    case (R.id.profile):
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
-                    case R.id.timer:
+                    case (R.id.timer):
                         startActivity(new Intent(getApplicationContext(), TimerActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
-                    case R.id.home:
+                    case (R.id.home):
                         return true;
-
                 }
                 return false;
             }
         });
-
-        // btn listeners
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            /**
-             * onClick listener for the search button
-             * @param view button view to set the on click listener to
-             */
-            @Override
-            public void onClick(View view) {
-                viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
-                closeKeyboard();
-            }
-        });
-
-        btnFilters.setOnClickListener(view -> {
-            viewModel.searchAPI(exerciseDataService, etDataInput, selected_filters);
-            drawerLayout.closeDrawer(GravityCompat.END);
-        });
-
     }
 
     /**
@@ -232,12 +227,48 @@ public class MainActivity extends AppCompatActivity implements RVInterface {
         startActivity(intent);
     }
 
+    /**
+     * on activity lifecycle pause
+     */
     @Override
     protected void onPause() {
         super.onPause();
         autoCompleteDiff.setText("", false);
         autoCompleteMuscle.setText("", false);
         autoCompleteType.setText("", false);
+    }
+
+    /**
+     * initialize values
+     */
+    public void init() {
+        btnSearch = findViewById(R.id.btnSearch);
+        btnFilters = findViewById(R.id.applyFilters);
+        recyclerView = findViewById(R.id.rvSearchList);
+        etDataInput = findViewById(R.id.etDataInput);
+
+        // filter menu
+        autoCompleteDiff = findViewById(R.id.autoCompleteDiff);
+        autoCompleteMuscle = findViewById(R.id.autoCompleteMuscle);
+        autoCompleteType = findViewById(R.id.autoCompleteType);
+
+        // top action bar
+        filterIcon = findViewById(R.id.menuOrAddIcon);
+        filterIcon.setImageResource(R.drawable.ic_filter);
+        tvActionBar = findViewById(R.id.pageTitle);
+        tvActionBar.setText(R.string.home_page);
+
+        // side menu
+        drawerLayout = findViewById(R.id.filter_drawer_layout);
+        navigationView = findViewById(R.id.filter_view);
+        header = navigationView.getHeaderView(0);
+        backFromMenuIcon = header.findViewById(R.id.backFromMenu);
+        sideMenuText = header.findViewById(R.id.pageTitle);
+        sideMenuText.setText(R.string.main_side_menu);
+
+        // bottom nav bar
+        navigationBarView = findViewById(R.id.bottom_nav);
+        navigationBarView.setSelectedItemId(R.id.home);
     }
 
 }

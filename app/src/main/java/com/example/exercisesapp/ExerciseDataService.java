@@ -24,6 +24,8 @@ import java.util.Map;
 
 public class ExerciseDataService {
 
+    // -------------------- attributes -------------------- //
+
     // base url and API key
     public static final String QUERY_FOR_EX_MUSCLE_BY_NAME = "https://api.api-ninjas.com/v1/exercises?name=";
     public static final String API_KEY = "PMhfR/rJJXo7TRcL3TLvSQ==AZO8ccTVmiOviIpZ";
@@ -31,7 +33,10 @@ public class ExerciseDataService {
     // context
     Context context;
 
-    // constructor
+    /**
+     * constructor
+     * @param context context
+     */
     public ExerciseDataService(Context context) {
         this.context = context;
     }
@@ -132,7 +137,6 @@ public class ExerciseDataService {
                 return params;
             }
     };
-
         // Add the request to the RequestQueue.
         RequestQueueSingleton.getInstance(context).addToRequestQueue(request);
     }

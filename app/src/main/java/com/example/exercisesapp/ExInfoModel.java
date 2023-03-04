@@ -7,7 +7,8 @@ import java.io.Serializable;
 @Parcel
 public class ExInfoModel implements Serializable {
 
-    // attributes
+    // -------------------- attributes -------------------- //
+
     private String name;
     private String type;
     private String muscle;

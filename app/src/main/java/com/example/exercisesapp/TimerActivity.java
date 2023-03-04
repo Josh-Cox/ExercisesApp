@@ -22,13 +22,19 @@ import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
 
+    // -------------------- global variables -------------------- //
+
     private static final String TIME_LEFT = "millis";
     private static final String TIMER_RUNNING = "running";
     private static final String END_TIME = "end";
     private static final String SHARED_PREFS = "prefs";
     private static final String START_TIME = "start";
+    private long startTimeInMillis;
+    private long timeLeftInMilli;
+    private long endTime;
+    private boolean timerRunning = false;
 
-    // ----- define views ----- //
+    // -------------------- define views -------------------- //
 
     // main content
     private TextView tvTimer;
@@ -37,11 +43,7 @@ public class TimerActivity extends AppCompatActivity {
     private Button btnSet;
     private EditText etTimerInput;
     private CountDownTimer countDownTimer;
-    private long startTimeInMillis;
-    private long timeLeftInMilli;
-    private long endTime;
-    private boolean timerRunning = false;
-    private
+
 
     // bottom nav bar
     NavigationBarView navigationBarView;
@@ -59,40 +61,27 @@ public class TimerActivity extends AppCompatActivity {
         init();
 
         // button click listeners
-        btnSet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String input = etTimerInput.getText().toString();
-                if(input.length() == 0) {
-                    Toast.makeText(TimerActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                long millisInput = Long.parseLong(input) * 60000;
-                
-                if(millisInput == 0) {
-                    Toast.makeText(TimerActivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                setTime(millisInput);
-                etTimerInput.setText("");
+        btnSet.setOnClickListener(view -> {
+            String input = etTimerInput.getText().toString();
+            if(input.length() == 0) {
+                Toast.makeText(TimerActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            long millisInput = Long.parseLong(input) * 60000;
+
+            if(millisInput == 0) {
+                Toast.makeText(TimerActivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            setTime(millisInput);
+            etTimerInput.setText("");
         });
 
-        btnTimer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startStop();
-            }
-        });
+        btnTimer.setOnClickListener(view -> startStop());
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetTimer();
-            }
-        });
+        btnReset.setOnClickListener(view -> resetTimer());
 
         updateTimer();
 
@@ -112,15 +101,15 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.profile:
+                    case (R.id.profile):
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
-                    case R.id.timer:
+                    case (R.id.timer):
                         return true;
 
-                    case R.id.home:
+                    case (R.id.home):
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
@@ -168,7 +157,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerRunning = false;
-                btnTimer.setText("start");
+                btnTimer.setText(R.string.timerStart);
                 btnTimer.setVisibility(View.INVISIBLE);
             }
         }.start();
@@ -192,12 +181,12 @@ public class TimerActivity extends AppCompatActivity {
     public void updateTimer() {
 
         if(timerRunning) {
-            btnTimer.setText("Pause");
+            btnTimer.setText(R.string.timerPause);
             etTimerInput.setVisibility(View.INVISIBLE);
             btnSet.setVisibility(View.INVISIBLE);
         }
         else {
-            btnTimer.setText("Start");
+            btnTimer.setText(R.string.timerStart);
             etTimerInput.setVisibility(View.VISIBLE);
             btnSet.setVisibility(View.VISIBLE);
         }

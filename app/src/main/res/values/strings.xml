@@ -10,7 +10,14 @@
     <string name="type">Filter By Type</string>
     <string name="theme">Change Theme</string>
 
+    <string name="rvRowMuscle">Muscle: %1$s</string>
+    <string name="rvRowDiff">Difficulty: %1$s</string>
+
     <string name="profile_side_menu">Customize</string>
     <string name="main_side_menu">Filter</string>
+
+    <string name="timerStart">Start</string>
+    <string name="timerPause">Pause</string>
+    <string name="timerReset">Reset</string>
 
 </resources>

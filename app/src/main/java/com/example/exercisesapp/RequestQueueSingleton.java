@@ -8,14 +8,14 @@ import com.android.volley.toolbox.Volley;
 
 public class RequestQueueSingleton {
 
-    // attributes
+    // -------------------- attributes -------------------- //
     private static RequestQueueSingleton instance;
     private RequestQueue requestQueue;
-    private static Context ctx;
+    private final Context ctx;
 
     /**
      * constructor for request queue
-     * @param context
+     * @param context activity context
      */
     private RequestQueueSingleton(Context context) {
         ctx = context;
@@ -24,8 +24,8 @@ public class RequestQueueSingleton {
 
     /**
      * create instance of request queue
-     * @param context
-     * @return
+     * @param context activity context
+     * @return singleton instance
      */
     public static synchronized RequestQueueSingleton getInstance(Context context) {
 
@@ -38,7 +38,7 @@ public class RequestQueueSingleton {
 
     /**
      * get request queue instance
-     * @return
+     * @return request queue
      */
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
@@ -51,8 +51,8 @@ public class RequestQueueSingleton {
 
     /**
      * add request to request queue
-     * @param req
-     * @param <T>
+     * @param req request
+     * @param <T> generic java type
      */
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);

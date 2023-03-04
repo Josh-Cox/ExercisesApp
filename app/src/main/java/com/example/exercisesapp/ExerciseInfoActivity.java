@@ -21,14 +21,26 @@ import java.util.ArrayList;
 
 public class ExerciseInfoActivity extends AppCompatActivity {
 
+    // -------------------- global variables -------------------- //
+
     // filename for saved Exercises
     public static String filename = "saved";
-
     // array for saved exercises
     ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<>();
-
     // activity accessed from
     String clickedFrom;
+    // set context
+    Context context = ExerciseInfoActivity.this;
+
+    // -------------------- define views -------------------- //
+    TextView tvTitle;
+    TextView tvMuscle;
+    TextView tvEquipment;
+    TextView tvType;
+    TextView tvDifficulty;
+    TextView tvInstr;
+    ImageView backIcon;
+    ImageView addIcon;
 
     /**
      * on activity creation
@@ -39,21 +51,14 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_info);
 
-        // unwrap the exercise
-        ExInfoModel exInfoModel = Parcels.unwrap(getIntent().getParcelableExtra("exercise"));
+        // -------------------- main setup -------------------- //
 
-        // unwrap the context
+        // unwrap the exercise and context
+        ExInfoModel exInfoModel = Parcels.unwrap(getIntent().getParcelableExtra("exercise"));
         clickedFrom = Parcels.unwrap(getIntent().getParcelableExtra("clickedFrom"));
 
         // assign values for views
-        TextView tvTitle = findViewById(R.id.pageTitle);
-        TextView tvMuscle = findViewById(R.id.tvMuscle);
-        TextView tvEquipment = findViewById(R.id.tvEquipment);
-        TextView tvType = findViewById(R.id.tvType);
-        TextView tvDifficulty = findViewById(R.id.tvDifficulty);
-        TextView tvInstr = findViewById(R.id.tvInstr);
-        ImageView backIcon = findViewById(R.id.backIcon);
-        ImageView addIcon = findViewById(R.id.menuOrAddIcon);
+        init();
 
         // set text views
         tvTitle.setText(exInfoModel.getName());
@@ -63,11 +68,10 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         tvDifficulty.setText(exInfoModel.getDifficulty());
         tvInstr.setText(exInfoModel.getInstructions());
 
-        // set context
-        Context context = ExerciseInfoActivity.this;
-
         // get exercises from file
         savedExInfoModels = getSavedEx(ExerciseInfoActivity.this);
+
+        // -------------------- action bar -------------------- //
 
         // top action bar
         if(clickedFrom.equals("profile")) {
@@ -257,5 +261,19 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
         // return new list of exercises
         return savedExInfoModels;
+    }
+
+    /**
+     * initialize values
+     */
+    public void init() {
+        tvTitle = findViewById(R.id.pageTitle);
+        tvMuscle = findViewById(R.id.tvMuscle);
+        tvEquipment = findViewById(R.id.tvEquipment);
+        tvType = findViewById(R.id.tvType);
+        tvDifficulty = findViewById(R.id.tvDifficulty);
+        tvInstr = findViewById(R.id.tvInstr);
+        backIcon = findViewById(R.id.backIcon);
+        addIcon = findViewById(R.id.menuOrAddIcon);
     }
 }

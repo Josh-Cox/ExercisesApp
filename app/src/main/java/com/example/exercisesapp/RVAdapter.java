@@ -9,12 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
 
-    //attributes
+    // -------------------- attributes -------------------- //
     private final RVInterface rvInterface;
     Context context;
     ArrayList<ExInfoModel> exInfoModels;
@@ -22,10 +21,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
 
     /**
      * constructor for recyclerView adapter
-     * @param context
-     * @param exInfoModels
-     * @param rvInterface
-     * @param clickedFrom
+     * @param context activity context
+     * @param exInfoModels list of exercise objects
+     * @param rvInterface recycler view interface instance
+     * @param clickedFrom activity user was previously on
      */
     public RVAdapter(Context context, ArrayList<ExInfoModel> exInfoModels, RVInterface rvInterface, String clickedFrom) {
         this.context = context;
@@ -40,7 +39,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
      *               an adapter position.
      * @param viewType The view type of the new View.
      *
-     * @return
+     * @return inflated view holder
      */
     @NonNull
     @Override
@@ -60,8 +59,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RVAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(exInfoModels.get(position).getName());
-        holder.tvMuscle.setText("Muscle: " + exInfoModels.get(position).getMuscle());
-        holder.tvDiff.setText("Difficulty: " + exInfoModels.get(position).getDifficulty());
+        holder.tvMuscle.setText(context.getString(R.string.rvRowMuscle, exInfoModels.get(position).getMuscle()));
+        holder.tvDiff.setText(context.getString(R.string.rvRowDiff, exInfoModels.get(position).getDifficulty()));
     }
 
     /**
@@ -73,28 +72,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
         return exInfoModels.size();
     }
 
-    /**
-     * get exercises
-     * @return exInfoModels
-     */
-    public Serializable getItems() {
-        return exInfoModels;
-    }
-
     // inner view holder class
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        // define views
+        // -------------------- define views -------------------- //
+
         TextView tvName;
         TextView tvMuscle;
         TextView tvDiff;
 
         /**
          * constructor for view holder
-         * @param itemView
-         * @param rvInterface
-         * @param exInfoModels
-         * @param clickedFrom
+         * @param itemView view of recycler view row
+         * @param rvInterface recycler view interface instance
+         * @param exInfoModels list of exercise objects
+         * @param clickedFrom activity user was previously on
          */
         public MyViewHolder(@NonNull View itemView, RVInterface rvInterface, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
             super(itemView);
@@ -107,7 +99,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 /**
                  * on item click, call item click method in recyclerView interface
-                 * @param view
+                 * @param view view clicked
                  */
                 @Override
                 public void onClick(View view) {

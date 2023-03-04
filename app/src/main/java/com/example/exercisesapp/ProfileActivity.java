@@ -1,31 +1,20 @@
 package com.example.exercisesapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,40 +27,44 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
-    // refresh boolean
+    // -------------------- global variables -------------------- //
     static boolean refreshed = true;
-
-
-    NavigationBarView navigationBarView;
-    RecyclerView recyclerView;
     ArrayList<ExInfoModel> savedExInfoModels = new ArrayList<>();
     Context context = ProfileActivity.this;
+
+    // -------------------- define views -------------------- //
+
+    // main content
+    NavigationBarView navigationBarView;
+    RecyclerView recyclerView;
     TextView tvActionBar;
     RVAdapter adapter;
 
+    // action bar
+    ImageView menuIcon;
 
+    // side menu
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    View header;
+    ImageView backFromMenuIcon;
+    TextView sideMenuText;
+    Menu menu;
+
+
+    /**
+     * on activity creation
+     * @param savedInstanceState current instance of activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // -------------------- main setup -------------------- //
 
-        // top action bar
-        ImageView menuIcon = findViewById(R.id.menuOrAddIcon);
-        tvActionBar = findViewById(R.id.pageTitle);
-        tvActionBar.setText(R.string.profile_page);
-
-        // side menu
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.menu_view);
-        View header = navigationView.getHeaderView(0);
-        ImageView backFromMenuIcon = header.findViewById(R.id.backFromMenu);
-        TextView sideMenuText = header.findViewById(R.id.pageTitle);
-        sideMenuText.setText(R.string.profile_side_menu);
-        Menu menu = navigationView.getMenu();
-
-        // set attributes
-        recyclerView = findViewById(R.id.rvSavedList);
+        //initialize views
+        init();
 
         // get saved exercises from file
         savedExInfoModels = ExerciseInfoActivity.getSavedEx(ProfileActivity.this);
@@ -81,9 +74,12 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
 
+        // -------------------- action bar -------------------- //
 
         // top action bar listener
         menuIcon.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.END));
+
+        // -------------------- side menu -------------------- //
 
         // side menu listeners
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -91,9 +87,8 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
             int id = item.getItemId();
             drawerLayout.closeDrawer(GravityCompat.END);
 
-            switch(id) {
+            if (id == R.id.findGyms) {
 
-                case R.id.findGyms:
                     // build intent
                     Uri location = Uri.parse("https://www.google.com/maps/search/gyms+near+me/");
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
@@ -104,30 +99,26 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
                     } catch (ActivityNotFoundException e) {
                         Toast.makeText(context, "No suitable app found", Toast.LENGTH_SHORT).show();
                     }
-
-
-                default:
-                    return true;
             }
+
+            return true;
         });
 
         backFromMenuIcon.setOnClickListener(view -> drawerLayout.closeDrawer(GravityCompat.END));
 
-        // bottom nav bar
-        navigationBarView = findViewById(R.id.bottom_nav);
-        navigationBarView.setSelectedItemId(R.id.profile);
+        // -------------------- nav bar -------------------- //
 
         navigationBarView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.profile:
+                case (R.id.profile):
                     return true;
 
-                case R.id.timer:
+                case (R.id.timer):
                     startActivity(new Intent(getApplicationContext(), TimerActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
 
-                case R.id.home:
+                case (R.id.home):
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
@@ -136,6 +127,12 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         });
     }
 
+    /**
+     * on recycler view item click
+     * @param position position of exercise object
+     * @param exInfoModels list of exercise objects
+     * @param clickedFrom activity user was previously on
+     */
     @Override
     public void onItemClick(int position, ArrayList<ExInfoModel> exInfoModels, String clickedFrom) {
         Intent intent = new Intent(this, ExerciseInfoActivity.class);
@@ -148,7 +145,9 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
         startActivity(intent);
     }
 
-    // override onResume to re-create activity (to refresh recycleView)
+    /**
+     * on activity lifecycle resume (refresh recycler view)
+     */
     @Override
     protected void onResume() {
 
@@ -160,5 +159,31 @@ public class ProfileActivity extends AppCompatActivity implements RVInterface {
 
         // still call onResume
         super.onResume();
+    }
+
+    /**
+     * initialize variables
+     */
+    public void init() {
+        //main content
+        recyclerView = findViewById(R.id.rvSavedList);
+
+        // top action bar
+        menuIcon = findViewById(R.id.menuOrAddIcon);
+        tvActionBar = findViewById(R.id.pageTitle);
+        tvActionBar.setText(R.string.profile_page);
+
+        // side menu
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.menu_view);
+        header = navigationView.getHeaderView(0);
+        backFromMenuIcon = header.findViewById(R.id.backFromMenu);
+        sideMenuText = header.findViewById(R.id.pageTitle);
+        sideMenuText.setText(R.string.profile_side_menu);
+        menu = navigationView.getMenu();
+
+        //nav bar
+        navigationBarView = findViewById(R.id.bottom_nav);
+        navigationBarView.setSelectedItemId(R.id.profile);
     }
 }

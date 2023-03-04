@@ -12,20 +12,31 @@ import java.util.ArrayList;
 
 public class ExViewModel extends AndroidViewModel {
 
-    private ExerciseDataService exerciseDataService;
-    private MutableLiveData<ArrayList<ExInfoModel>> exerciseArray = new MutableLiveData<>();
+    // -------------------- attributes -------------------- //
+    private final MutableLiveData<ArrayList<ExInfoModel>> exerciseArray = new MutableLiveData<>();
 
-
+    /**
+     * constructor
+     * @param application application context
+     */
     public ExViewModel(@NonNull Application application) {
         super(application);
-
-        exerciseDataService = new ExerciseDataService(application);
     }
 
+    /**
+     * get exercises
+     * @return list of exercise objects
+     */
     public LiveData<ArrayList<ExInfoModel>> getEx() {
         return this.exerciseArray;
     }
 
+    /**
+     * Send API request
+     * @param exerciseDataService data service to send request
+     * @param etDataInput exercise name input from user
+     * @param selected_filters user selected filter options
+     */
     public void searchAPI(ExerciseDataService exerciseDataService, EditText etDataInput, String[] selected_filters) {
 
         exerciseDataService.getExInfoByName(etDataInput.getText().toString(), selected_filters, new ExerciseDataService.ExInfoByNameResponse() {
