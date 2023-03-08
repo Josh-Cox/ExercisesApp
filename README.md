@@ -33,19 +33,17 @@ For data storage I decided to use internal storage, as the user would need to st
 ### **Theme**
 
 For the app I decided to pick a theme and colour palette early on, so that the different activities would all feel like they belong. The app has a light and dark theme, that are chosen based on the user's device preference. Both themes use the same pink accent colour, with the dark theme using black and dark grey primary colours, and the light theme using white and light grey primary colours.
-
-<br>
-<br>
-<br>
-<br>
-
-### **Responsiveness**
-
 On the same thought of making the app feeling polished, I have added click effects to everything that the user may press, in order to make the app feel more responsive. I have also made use of Toasts to display certain actions have been carried out properly.
 
 ### **API**
 
 I made use of view models to store the data received from the API in order to ensure that the search request would be carried out if for example the screen orientation was changed. I have also created a seperate layout for the home screen in landscape mode, as the side menu was not displaying properly. I made the decision that caching the data collected from the API would not be necessary as the data is not being changed, therefore the logical thing would be to make use of a database, however, that would remove the need for an internet connection, which is outlined as a requirement in the specification.
+
+---
+
+## Novel Features
+
+One of the novel features in my app is the ability to filter search results though the filter menu on the main activity. The inbuilt timer page is also a novelty and is useful when during a workout, you don't need to leave the app to access a timer.
 
 ---
 
